@@ -1,9 +1,16 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createNote } from "../../store/notes";
+
 import classes from "./AddTodo.module.css";
 import Button from "../UI/Button";
 
+import * as actionTypes from '../store/actions';
+
 const AddTodo = () => {
   const [todo, setTodo] = useState({ title: "", task: "" });
+  const dispatch = useDispatch();
+
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
@@ -16,19 +23,22 @@ const AddTodo = () => {
 
   const addHandler = (e) => {
     e.preventDefault();
+    dispatch(createNote(todo))
+
   };
+
 
   return (
     <form onSubmit={addHandler} className={classes.input}>
       <div>
         <label>Title</label>
-        <input type="text" onChange={changeHandler} />
+        <input type="text" name="title" onChange={changeHandler} />
       </div>
       <div>
         <label>Task</label>
-        <input type="text" onChange={changeHandler} />
+        <input type="text" name="task" onChange={changeHandler} />
       </div>
-      <Button>Add Task</Button>
+      <Button type="submit">Add Task</Button>
     </form>
   );
 };
